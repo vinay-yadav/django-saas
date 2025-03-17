@@ -1,0 +1,9 @@
+scripts:
+  install:
+    - pip-compile src/requirements/prod.in -o requirements.txt
+    - python -m pip install -r requirements.txt
+  install_dev:
+    - pip-compile src/requirements/prod.in -o requirements.txt
+    - python -m pip install -r requirements.txt
+    - pip-compile src/requirements/dev.in -o requirements.dev.txt
+    - python -m pip install -r requirements.dev.txt
