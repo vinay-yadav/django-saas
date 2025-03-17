@@ -1,5 +1,6 @@
 from django.db import connection
 from django.apps import apps
+from django.core.cache import cache
 
 from helpers.db.schemas import (
     use_public_schema, active_tenant_schema
@@ -32,6 +33,12 @@ class SchemaTenantMiddleware:
             return "public"
 
         schema_name = "public"
+        cache_key = f"subdomain_schema:{subdomain}"
+        cache_value = cache.get(cache_key)
+        if cache_value:
+            print("Schema cache hit", cache_value)
+            return cache_value
+
         with use_public_schema():
             Tenant = apps.get_model("tenants", "Tenant")
             try:
@@ -41,4 +48,7 @@ class SchemaTenantMiddleware:
                 print(f"{subdomain} does not exist as Tenant")
             except Exception as e:
                 print(f"{subdomain} does not exist as Tenant. \n {e}")
+
+            cache_ttl = 60 # seconds
+            cache.set(cache_key, str(schema_name), cache_ttl)
         return schema_name
