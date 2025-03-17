@@ -29,9 +29,14 @@ def active_tenant_schema(schema_name: str) -> None:
     if is_check_exists_required and check_if_schema_exists(schema_name=schema_name):
         schema_to_use = schema_name
 
+    if schema_to_use == connection.schema_name:
+        print("Schema already active")
+        return
+
     with connection.cursor() as cursor:
         sql = f'SET search_path TO "{schema_to_use}";'
         cursor.execute(sql)
+        connection.schema_name = schema_to_use
 
 
 @contextmanager
@@ -41,7 +46,10 @@ def use_public_schema(revert_schema_name=None, revert_schema=False):
             Tenant.objects.all()
     """
     try:
-        active_tenant_schema(schema_name=DEFAULT_SCHEMA)
+        schema_to_use = DEFAULT_SCHEMA
+        with connection.cursor() as cursor:
+            sql = f'SET search_path TO "{schema_to_use}";'
+            cursor.execute(sql)
         yield
     finally:
         if revert_schema:
