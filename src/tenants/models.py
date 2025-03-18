@@ -3,8 +3,9 @@ import uuid
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from django.core.management import call_command
 
-from . import utils
+from . import utils, tasks
 from helpers.db.validators import (validate_blocked_subdomains, validate_subdomain)
 
 User = settings.AUTH_USER_MODEL
@@ -38,3 +39,4 @@ class Tenant(models.Model):
             self.schema_name = utils.generate_unique_schema_name(self.id)
 
         super(Tenant, self).save(*args, **kwargs)
+        tasks.migrate_tenant_task(self.id)
