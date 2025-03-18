@@ -187,5 +187,5 @@ Much more coming soon!
 ### Current Duration
 ```text
 - Link: https://youtu.be/4h4R7JL-h10?si=vQAXp1p8QHNOrPE9
-- Resume: https://youtu.be/4h4R7JL-h10?si=vQAXp1p8QHNOrPE9&t=9432
+- Resume: https://youtu.be/4h4R7JL-h10?si=1T68u89rQfyvbMFq&t=11583
 ```
