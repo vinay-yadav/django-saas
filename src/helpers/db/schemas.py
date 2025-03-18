@@ -29,9 +29,9 @@ def active_tenant_schema(schema_name: str) -> None:
     if is_check_exists_required and check_if_schema_exists(schema_name=schema_name):
         schema_to_use = schema_name
 
-    if schema_to_use == connection.schema_name:
-        print("Schema already active")
-        return
+    # if schema_to_use == connection.schema_name:
+    #     print("Schema already active")
+    #     return
 
     with connection.cursor() as cursor:
         sql = f'SET search_path TO "{schema_to_use}";'
