@@ -1,3 +1,5 @@
+from django.http import HttpResponse
+
 import helpers.numbers
 from django.shortcuts import render
 from django.db import connection
@@ -8,6 +10,12 @@ from dashboard.views import dashboard_view
 from visits.models import PageVisit
 
 def landing_dashboard_page_view(request):
+    # for k, v in request.__dict__.copy().items():
+    #     print(k, "\t", str(v)[:50])
+    #
+    # if not request.tenant_active:
+    #     return HttpResponse("Invalid subdomain")
+
     print("connection", connection.schema_name)
     user = None
     if request.user.is_authenticated:
