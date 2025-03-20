@@ -28,6 +28,8 @@ class SchemaTenantMiddleware:
         schema_name, tenant_active = self.get_schema_name(subdomain=subdomain)
         active_tenant_schema(schema_name=schema_name)
 
+        request.tenant_active = tenant_active
+
         if not tenant_active:
             return HttpResponse("Invalid subdomain")
         return self.get_response(request)
